@@ -1,0 +1,9 @@
+npm i cors dotenv express @google/generative-ai
+npm i nodemon
+
+npm i axios
+
+npm install express mongoose cors
+
+MongoDB
+AI_Learning : AI_learning_2025
