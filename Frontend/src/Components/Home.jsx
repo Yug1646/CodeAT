@@ -1,5 +1,7 @@
 import React from "react";
 import "../CSS/home.CSS";
+import heroImage from "../assets/img-ex.png";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -14,17 +16,18 @@ const Home = () => {
         <div className="text-section">
           <h2 className="subheading">CodeAT</h2>
           <p className="paragraph">
-            Refactor, clean, and improve your code instantly with our
-            AI-powered tool. Supporting multiple programming languages,
-            customization optimization modes, and real-time quality scoring, we
-            help developers write cleaner, more efficient code with ease. Start
+            Refactor, clean, and improve your code instantly with our AI-powered
+            tool. Supporting multiple programming languages, customization
+            optimization modes, and real-time quality scoring, we help
+            developers write cleaner, more efficient code with ease. Start
             coding smarter today!
           </p>
-          <a href="#" className="button">Let's get started</a>
+          <Link to="/signup" className="button">
+            Let's get started
+          </Link>
         </div>
-
-        <div className="image-section">
-          <img src="/your-image-path.png" alt="Code snippet" className="image" />
+        <div className="img-explain">
+          <img src={heroImage} alt="Code Optimization" />
         </div>
       </div>
     </section>

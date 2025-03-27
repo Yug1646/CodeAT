@@ -53,11 +53,14 @@
   text-decoration: none;
 }
 
-.image-section {
-  max-width: 40%;
+.img-explain {
+  flex-shrink: 0;
+  margin-left: 40px;
 }
 
-.image {
-  width: 100%;
-  border-radius: 12px;
+.img-explain img {
+  width: 500px;
+  border-radius: 15px;
+  /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
 }
+
