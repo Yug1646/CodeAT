@@ -1,7 +1,21 @@
+/* 
+-------------------- TYPOGRAPHY --------------------
+
+FONT SIZE : 12px / 16px / 21.33px / 28.43px / 37.9px / 50.52px / 67.34px / 89.76px
+
+*/
+
 @import "tailwindcss";
 @plugin "daisyui";
 
-*{
-    color: black;
-    background-color: #fff;
+* {
+  color: black;
+  background-color: #fff;
+  font-family: Inter;
+}
+
+/* Button in Navbar.jsx */
+.butto{
+  font-size: 25px;
+  font-weight: 500;
 }

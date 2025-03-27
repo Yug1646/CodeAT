@@ -1,0 +1,63 @@
+/* -------------------- ELEMENTS -------------------- */
+
+/* -------------------- CLASS -------------------- */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 10%;
+}
+
+.main-heading {
+  font-size: 4.209rem;
+  font-weight: bold;
+}
+
+.sub-text {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.text-section {
+  max-width: 50%;
+  text-align: left;
+}
+
+.subheading {
+  font-size: 3.157rem;
+  font-weight: bold;
+}
+
+.paragraph {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.image-section {
+  max-width: 40%;
+}
+
+.image {
+  width: 100%;
+  border-radius: 12px;
+}

@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import "../index.css"
 const Navbar = () => {
   return (
     <>
       <div class="navbar bg-base-100 shadow-sm">
         <div class="navbar-start">
-          <Link to="/" class="btn btn-ghost text-xl">CodeAT</Link>
+          <Link to="/" class="butto btn-ghost text-xl">CodeAT</Link>
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1">
