@@ -1,10 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const router = express.Router();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+const promData = require("./Models/PromData"); // Import updated schema
+const Note = require("./Models/Notes");
+
 
 const app = express();
 app.use(express.json());
@@ -73,6 +80,97 @@ app.post("/login", async (req, res) => {
     res.json({ message: "Login Succesful", token });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// -------------------- SAVING DATA --------------------
+app.post("/prom-data", async (req, res) => {
+  try {
+    const { title, description, topicCovered, codeExample, category, tags } = req.body;
+
+    // Create HTML Content
+    const content = `
+      <html>
+        <head><title>${title}</title></head>
+        <body>
+          <h1>${title}</h1>
+          <p>${description}</p>
+          <h2>Topics Covered</h2>
+          <ul>
+            ${topicCovered.map((topic) => `<li>${topic}</li>`).join("")}
+          </ul>
+          <h2>Code Example</h2>
+          <pre><code>${codeExample}</code></pre>
+        </body>
+      </html>
+    `;
+
+    // File Path to Save (Create 'notes' directory if not exists)
+    const notesDir = path.join(__dirname, "notes");
+    if (!fs.existsSync(notesDir)) {
+      fs.mkdirSync(notesDir);
+    }
+
+    // Define File Name and Path
+    const fileName = `${title.replace(/\s/g, "_").toLowerCase()}.html`;
+    const filePath = path.join(notesDir, fileName);
+
+    // Save HTML File
+    fs.writeFileSync(filePath, content);
+
+    // Save Only File Path in DB
+    const newData = new promData({
+      title,
+      description,
+      topicCovered,
+      codeExample,
+      category,
+      tags,
+      filePath, // Store file path instead of content
+    });
+
+    // Save to DB
+    const savedData = await newData.save();
+    res.status(201).json(savedData);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---------------- GET FILE CONTENT ----------------
+app.get("/prom-data", async (req, res) => {
+  try {
+    const data = await promData.find(); // Fetch all stored notes
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Add or update notes by fileName
+app.post("/prom-data", async (req, res) => {
+  const { prompt, generatedContent } = req.body;
+
+  // Auto-detect topic and fileName
+  const fileName = detectFileName(prompt); // Function to categorize
+  const topic = extractTopic(prompt); // Function to extract the topic
+
+  const noteData = {
+    fileName,
+    topics: [
+      {
+        topic,
+        description: prompt,
+        codeExample: generatedContent,
+      },
+    ],
+  };
+
+  try {
+    const result = await db.collection("notes").insertOne(noteData);
+    res.status(200).send("Note saved successfully!");
+  } catch (err) {
+    res.status(500).send("Error saving note: " + err.message);
   }
 });
 

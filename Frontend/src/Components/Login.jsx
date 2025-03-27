@@ -22,7 +22,7 @@ const Login = () => {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        alert("Login successful!");
+        // alert("Login successful!");
         // Store token in localStorage (if using JWT authentication)
         localStorage.setItem("token", data.token);
         // Redirect user (if needed)

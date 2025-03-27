@@ -26,8 +26,9 @@ const Signup = () => {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        alert("Signup successful!");
-        window.location.href = "/"; 
+        // alert("Signup successful!");
+        window.location.href = "/";
+        window.location.reload();
       } else {
         alert(`Signup failed: ${data.error}`);
       }
