@@ -9,12 +9,15 @@ const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
-const promData = require("./Models/PromData"); // Import updated schema
+const promData = require("./Models/PromData");
 const Note = require("./Models/Notes");
-
+const User = require("./Models/Users");
 
 const app = express();
 app.use(express.json());
+app.use(bodyParser.json());
+
+// -------------------- CORS CONFIG --------------------
 const corsOptions = {
   origin: ["http://localhost:5173", "http://localhost:5174"],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -22,27 +25,25 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// -------------------- MONGO CONNECTION --------------------
 mongoose
   .connect(process.env.User_MONGO_KEY, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB Conneection Error : ", err));
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
 // -------------------- SIGNUP CODE --------------------
-const User = require("./Models/Users");
 app.post("/signup", async (req, res) => {
   try {
-    // const newUser = new User({
-    //   fname: req.body.fname,
-    //   lname: req.body.lname,
-    //   uname: req.body.uname,
-    //   password: req.body.password,
-    // });
     const { fname, lname, uname, password } = req.body;
+
+    // Hash Password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create New User
     const newUser = new User({
       fname,
       lname,
@@ -51,7 +52,7 @@ app.post("/signup", async (req, res) => {
     });
 
     await newUser.save();
-    res.json({ message: "User added Successfully !" });
+    res.json({ message: "✅ User added successfully!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -62,133 +63,98 @@ app.post("/login", async (req, res) => {
   try {
     const { uname, password } = req.body;
 
-    // Find USER
+    // Find User
     const user = await User.findOne({ uname });
     if (!user) {
-      return res.status(400).json({ error: "User not found" });
+      return res.status(400).json({ error: "❌ User not found" });
     }
 
-    // Compare PASSWORD
+    // Compare Password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ error: "Invaild Credentials" });
+      return res.status(400).json({ error: "❌ Invalid credentials" });
     }
-    // Generate TOKEN
-    const token = jwt.sign({ userId: user.id }, "your_secret_key", {
+
+    // Generate Token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ message: "Login Succesful", token });
+    res.json({ message: "✅ Login successful", token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// -------------------- SAVING DATA --------------------
+// -------------------- DETECT FILE NAME & TOPIC --------------------
+const detectFileName = (prompt) => {
+  if (prompt.toLowerCase().includes("html")) return "html_basics";
+  if (prompt.toLowerCase().includes("css")) return "css_basics";
+  if (prompt.toLowerCase().includes("javascript")) return "js_basics";
+  return "general_notes";
+};
+
+const extractTopic = (prompt) => {
+  const words = prompt.split(" ");
+  return words.length > 5 ? words.slice(0, 5).join(" ") + "..." : prompt;
+};
+
+// -------------------- SAVE GENERATED DATA --------------------
 app.post("/prom-data", async (req, res) => {
   try {
-    const { title, description, topicCovered, codeExample, category, tags } = req.body;
+    const { prompt, generatedContent } = req.body;
 
-    // Create HTML Content
-    const content = `
-      <html>
-        <head><title>${title}</title></head>
-        <body>
-          <h1>${title}</h1>
-          <p>${description}</p>
-          <h2>Topics Covered</h2>
-          <ul>
-            ${topicCovered.map((topic) => `<li>${topic}</li>`).join("")}
-          </ul>
-          <h2>Code Example</h2>
-          <pre><code>${codeExample}</code></pre>
-        </body>
-      </html>
-    `;
+    // Auto-detect file name and topic
+    const fileName = detectFileName(prompt);
+    const topic = extractTopic(prompt);
 
-    // File Path to Save (Create 'notes' directory if not exists)
-    const notesDir = path.join(__dirname, "notes");
-    if (!fs.existsSync(notesDir)) {
-      fs.mkdirSync(notesDir);
-    }
-
-    // Define File Name and Path
-    const fileName = `${title.replace(/\s/g, "_").toLowerCase()}.html`;
-    const filePath = path.join(notesDir, fileName);
-
-    // Save HTML File
-    fs.writeFileSync(filePath, content);
-
-    // Save Only File Path in DB
-    const newData = new promData({
-      title,
-      description,
-      topicCovered,
-      codeExample,
-      category,
-      tags,
-      filePath, // Store file path instead of content
+    // Create Note Object
+    const noteData = new Note({
+      fileName,
+      topics: [
+        {
+          title: topic,
+          description: prompt,
+          content: generatedContent,
+          tags: [fileName, "AI-generated"],
+        },
+      ],
     });
 
-    // Save to DB
-    const savedData = await newData.save();
-    res.status(201).json(savedData);
+    // Save Note to Database
+    await noteData.save();
+    res.status(201).json({ message: "✅ Note saved successfully!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// ---------------- GET FILE CONTENT ----------------
+// -------------------- GET ALL NOTES --------------------
 app.get("/prom-data", async (req, res) => {
   try {
-    const data = await promData.find(); // Fetch all stored notes
+    const data = await Note.find();
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Add or update notes by fileName
-app.post("/prom-data", async (req, res) => {
-  const { prompt, generatedContent } = req.body;
-
-  // Auto-detect topic and fileName
-  const fileName = detectFileName(prompt); // Function to categorize
-  const topic = extractTopic(prompt); // Function to extract the topic
-
-  const noteData = {
-    fileName,
-    topics: [
-      {
-        topic,
-        description: prompt,
-        codeExample: generatedContent,
-      },
-    ],
-  };
-
-  try {
-    const result = await db.collection("notes").insertOne(noteData);
-    res.status(200).send("Note saved successfully!");
-  } catch (err) {
-    res.status(500).send("Error saving note: " + err.message);
-  }
-});
-
-// -------------------- GEMINI KEY --------------------
+// -------------------- GEMINI API INTEGRATION --------------------
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 app.post("/generate", async (req, res) => {
   const { prompt } = req.body;
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
     res.send(text);
   } catch (error) {
     console.log(error);
-    res.status(500).send("Failed to generate content");
+    res.status(500).send("❌ Failed to generate content");
   }
 });
 
-app.listen(process.env.PORT, console.log("Server is running"));
+// -------------------- SERVER LISTENING --------------------
+app.listen(process.env.PORT || 5000, () => {
+  console.log("🚀 Server running on port ${process.env.PORT || 5000}");
+});

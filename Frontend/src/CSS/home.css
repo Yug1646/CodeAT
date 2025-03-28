@@ -1,58 +1,152 @@
-/* -------------------- ELEMENTS -------------------- */
+/* Advanced, clean, and futuristic black-and-white theme */
 
-/* -------------------- CLASS -------------------- */
 .home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  max-width: 1500px;
+  margin: 0 auto;
   text-align: center;
-  padding: 50px 10%;
+  padding: 50px 20px;
+  color: #000;
 }
 
 .main-heading {
-  font-size: 4.209rem;
-  font-weight: bold;
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  color: #111;
 }
 
 .sub-text {
-  font-size: 1rem;
-  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  color: #444;
 }
 
 .content-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 40px;
-  width: 100%;
+  gap: 40px;
 }
 
 .text-section {
-  max-width: 50%;
+  max-width: 500px;
   text-align: left;
 }
 
 .subheading {
-  font-size: 3.157rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #000;
 }
 
 .paragraph {
   font-size: 1rem;
-  margin-top: 10px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 .button {
   display: inline-block;
-  margin-top: 20px;
-  padding: 12px 20px;
+  padding: 12px 25px;
   font-size: 1rem;
-  font-weight: bold;
-  border-radius: 8px;
+  font-weight: 600;
   text-decoration: none;
+  color: #fff;
+  background: #000;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
+.button:hover {
+  background: #333;
+}
+
+.img-explain img {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  border-radius: 12px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.img-explain img:hover {
+  transform: scale(1.05);
+  filter: grayscale(20%);
+}
+
+
+
+
+/* 
+---------- FONT SIZE ----------
+16px / 21px / 28px / 37px / 50px / 67px / 89px
+*/
+
+header h2 {
+  font-weight: 700;
+  font-size: 67px;
+  text-align: center;
+  padding: 75px 0px 10px;
+  letter-spacing: -2px;
+}
+header p {
+  text-align: center;
+  padding-bottom: 75px;
+  font-size: 20px;
+}
+/* Intro Section */
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1500px;
+  margin: auto;
+  padding: 50px;
+}
+
+/* Text Content */
+.intro-text {
+  flex: 1;
+  max-width: 600px;
+  font-size: 16px;
+}
+
+.intro-text h3 {
+  font-weight: 700;
+  font-size: 50px;
+  letter-spacing: 0.5px;
+}
+
+.intro-text p {
+  font-size: 21px;
+  line-height: 1.5;
+}
+
+/* Button */
+.btn-lgs {
+  display: inline-block;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 25px;
+  background-color: #6750a4;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-lgs:hover {
+  background-color: white;
+  color: #6750a4;
+}
+
+/* Image Section */
 .img-explain {
   flex-shrink: 0;
   margin-left: 40px;
@@ -60,7 +154,116 @@
 
 .img-explain img {
   width: 500px;
-  border-radius: 15px;
-  /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* ---------- CARD ---------- */
+#card-info {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#card-info h2 {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, rgb(0, 183, 255), rgb(14, 0, 14));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about {
+  display: flex;
+  flex-direction: column; /* Keeps title above */
+  align-items: center;
+  gap: 50px;
+  padding: 50px 0;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 200px; /* Space between cards */
+  flex-wrap: nowrap; /* 🚀 Forces cards to stay in a row */
+  overflow-x: auto; /* Allows horizontal scrolling if needed */
+  width: 100%;
+  max-width: 1200px; /* Prevents stretching on large screens */
+}
+
+.intro-card {
+  width: 250px;
+  height: 300px;
+  font-size: 18px;
+  background: #07182e;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 25px;
+  text-align: center;
+  padding: 20px;
+  flex-shrink: 0; /* Prevents cards from resizing */
+}
+
+.intro-card1 {
+  text-align: left;
+}
+
+.intro-card3 {
+  text-align: right;
+}
+
+.intro-card h2 {
+  z-index: 2;
+  color: white;
+  font-size: 1.5em;
+  position: relative;
+  background: rgba(7, 24, 46, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.intro-card::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  background-image: linear-gradient(
+    180deg,
+    rgb(0, 183, 255),
+    rgb(255, 48, 255)
+  );
+  height: 130%;
+  animation: rotBGimg 3s linear infinite;
+  transition: all 0.2s linear;
+}
+
+@keyframes rotBGimg {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.intro-card::after {
+  content: "";
+  position: absolute;
+  background: #07182e;
+  inset: 5px;
+  border-radius: 15px;
+  z-index: 1;
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Restore Hover Effect */
+.intro-card:hover::before {
+  background-image: linear-gradient(180deg, rgb(81, 255, 0), purple);
+  animation: rotBGimg 3.5s linear infinite;
+}

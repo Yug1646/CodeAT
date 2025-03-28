@@ -30,9 +30,20 @@ const Navbar = () => {
                   <li>
                     <Link to="/chatbox">Chatbox</Link>
                   </li>
+                  <li>
+                    <Link to="/history">History</Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/codeRe"
+                      className="text-black hover:text-gray-600 transition"
+                    >
+                      CodeRe
+                    </Link>
+                  </li>
                 </ul>
               </div>
-              <button onClick={handleLogout} className="">
+              <button onClick={handleLogout} className="btn">
                 Logout
               </button>
             </>
