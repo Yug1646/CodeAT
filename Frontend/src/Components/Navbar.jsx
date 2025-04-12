@@ -14,7 +14,7 @@ const Navbar = () => {
     <>
       <div className="navbar bg-base-100 shadow-sm">
         <div className="navbar-start">
-          <Link to="/" className="btn btn-ghost text-xl">
+          <Link to="/" className="cat-heading btn btn-ghost">
             CodeAT
           </Link>
         </div>
@@ -33,14 +33,14 @@ const Navbar = () => {
                   <li>
                     <Link to="/history">History</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       to="/codeRe"
                       className="text-black hover:text-gray-600 transition"
                     >
-                      CodeRe
+                      Optimizer
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <button onClick={handleLogout} className="btn">

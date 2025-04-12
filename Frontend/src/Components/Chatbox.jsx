@@ -203,7 +203,7 @@ const Chatbox = () => {
         <section className="chat-history">
           {chatHistory.map((chat, index) => (
             <div key={index} className={`chat-bubble ${chat.role}`}>
-              <strong>{chat.role === "user" ? "🧑‍💻 You: " : "🤖 AI: "}</strong>
+              <strong>{chat.role === "user" ? "You: " : "AI: "}</strong>
               <div className="markdown-content">
                 <ReactShowdown
                   markdown={chat.content}

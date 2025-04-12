@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import userIcon from "../assets/user.png";
+import "../CSS/codegen.css"
 
 const Codegen = () => {
   const [messages, setMessages] = useState([

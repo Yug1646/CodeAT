@@ -9,7 +9,7 @@
 }
 
 .main-heading {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 2px;
@@ -38,8 +38,8 @@
 }
 
 .subheading {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 10px;
   color: #000;
 }
@@ -67,7 +67,7 @@
   background: #333;
 }
 
-.img-explain img {
+/* .img-explain img {
   width: 100%;
   height: auto;
   max-width: 500px;
@@ -78,11 +78,7 @@
 .img-explain img:hover {
   transform: scale(1.05);
   filter: grayscale(20%);
-}
-
-
-
-
+} */
 /* 
 ---------- FONT SIZE ----------
 16px / 21px / 28px / 37px / 50px / 67px / 89px
@@ -168,12 +164,12 @@ header p {
 #card-info h2 {
   font-size: 2.5em;
   font-weight: bold;
-  color: white;
+  color: black;
   text-transform: uppercase;
   letter-spacing: 2px;
-  background: linear-gradient(90deg, rgb(0, 183, 255), rgb(14, 0, 14));
+  /* background: linear-gradient(90deg, rgb(0, 183, 255), rgb(14, 0, 14));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
 }
 
 .about {
@@ -224,7 +220,7 @@ header p {
   color: white;
   font-size: 1.5em;
   position: relative;
-  background: rgba(7, 24, 46, 0.5);
+  background: black;
   padding: 15px;
   border-radius: 10px;
 }
@@ -255,7 +251,7 @@ header p {
 .intro-card::after {
   content: "";
   position: absolute;
-  background: #07182e;
+  background: black;
   inset: 5px;
   border-radius: 15px;
   z-index: 1;

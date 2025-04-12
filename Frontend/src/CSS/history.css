@@ -47,7 +47,7 @@
   }
   
   .his-but{
-    background-color: #4caf50;
+    background-color: #000000;
     color: white;
     border: none;
     padding: 8px 12px;
@@ -58,7 +58,8 @@
   }
   
   .his-but:hover {
-    background-color: #45a049;
+    background-color: #ffffff;
+    color: #000000;
   }
   
   @media (max-width: 600px) {

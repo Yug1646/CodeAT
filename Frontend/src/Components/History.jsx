@@ -48,7 +48,7 @@ const History = () => {
   return (
     <>
       <div className="history-container">
-        <h2>📚 Saved Conversations</h2>
+        <h2>Saved Conversations</h2>
         {loading ? (
           <p>⏳ Loading history...</p>
         ) : (
@@ -61,7 +61,7 @@ const History = () => {
                   <h3>🗂 Conversation {index + 1}</h3>
                   <p>
                     {note.chatHistory?.[0]?.message?.slice(0, 50) ||
-                      "No messages available"}
+                      ""}
                     ...
                   </p>
                   <button className="his-but" onClick={() => handleResumeChat(note)}>
