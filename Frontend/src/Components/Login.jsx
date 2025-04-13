@@ -6,40 +6,48 @@ const Login = () => {
     uname: "",
     password: "",
   });
+
+  const [error, setError] = useState(""); // for error message
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    setError(""); // Clear error when typing
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:5000/login", {
-        method: "Post",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
       });
+
       const data = await response.json();
-      console.log(data);
+
       if (response.ok) {
-        // alert("Login successful!");
-        // Store token in localStorage (if using JWT authentication)
         localStorage.setItem("token", data.token);
-        // Redirect user (if needed)
         window.location.href = "/";
       } else {
-        alert(`Login failed: ${data.error}`);
+        setError(data.error || "Login failed. Please check your credentials.");
       }
     } catch (error) {
-      console.error("Error Login: ", error);
+      console.error("Error during login: ", error);
+      setError("Server error. Please try again later.");
     }
   };
+
   return (
     <>
       <div className="login-container">
         <div className="login-box">
           <h2 className="login-title">Login to Account</h2>
+
           <form onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>} {/* Show error message */}
+
             <div className="input-group">
               <label className="input-label">Username</label>
               <input
@@ -65,11 +73,6 @@ const Login = () => {
             <div className="links">
               <a href="/signup">Create Account</a>
             </div>
-
-            {/* <div className="remember-me">
-            <input type="checkbox" id="remember" />
-            <label htmlFor="remember">Remember me</label>
-          </div> */}
 
             <button className="login-button">Login</button>
           </form>
